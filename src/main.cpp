@@ -1,18 +1,44 @@
 #include <Arduino.h>
+#include <Wire.h>
+#include <SPI.h>
+#include "Adafruit_CCS811.h"
+
+Adafruit_CCS811 GasSensor;
 
 // put function declarations here:
-int myFunction(int, int);
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+Serial.begin(19200);
+
+  Serial.println("CCS811 test");
+
+  while(!GasSensor.begin()){
+    Serial.println("Failed to start sensor! Please check your wiring.");
+    delay(1000);
+  }
+
+  // Wait for the sensor to be ready
+  while(!GasSensor.available()){
+    Serial.println("GasSensor not available.");
+    delay(1000);
+  }
+
+
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  if(GasSensor.available()){
+      if(!GasSensor.readData()){
+        Serial.print("CO2: ");
+        Serial.print(GasSensor.geteCO2());
+        Serial.print("ppm, TVOC: ");
+        Serial.println(GasSensor.getTVOC());
+      }
+      else{
+        Serial.println("ERROR!");
+        while(1);
+      }
+    }
+    delay(500);
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
 }
