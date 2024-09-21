@@ -22,8 +22,7 @@ Serial.begin(19200);
     Serial.println("GasSensor not available.");
     delay(1000);
   }
-
-
+  GasSensor.setDriveMode(CCS811_DRIVE_MODE_1SEC);
 }
 
 void loop() {
