@@ -19,7 +19,7 @@ Serial.begin(19200);
 
   // Wait for the sensor to be ready
   while(!GasSensor.available()){
-    Serial.println("GasSensor not available.");
+    Serial.println("GasSensor not available");
     delay(1000);
   }
   GasSensor.setDriveMode(CCS811_DRIVE_MODE_1SEC);
@@ -34,8 +34,8 @@ void loop() {
         Serial.println(GasSensor.getTVOC());
       }
       else{
-        Serial.println("ERROR!");
-        while(1);
+        Serial.println("ERROR CCS811 readData() failed! Sleeping for 1000 ms");
+        delay(1000);
       }
     }
     delay(500);
