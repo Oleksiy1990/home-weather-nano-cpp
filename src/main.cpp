@@ -1,43 +1,44 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <SPI.h>
+#include "i2c_scanner.h"
 #include "Adafruit_CCS811.h"
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 
-Adafruit_CCS811 GasSensor;
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
 
 // put function declarations here:
 
 void setup() {
-Serial.begin(19200);
+  Serial.begin(9600);
+  while (!Serial){
+    ;
+  }
+  Wire.begin();
 
-  Serial.println("CCS811 test");
-
-  while(!GasSensor.begin()){
-    Serial.println("Failed to start sensor! Please check your wiring.");
+  while(!display.begin(SSD1306_SWITCHCAPVCC, 0x3c)) { // apparently 0x3c is the i2c address of this OLED
+    Serial.println(F("SSD1306 OLED allocation failed"));
     delay(1000);
   }
 
-  // Wait for the sensor to be ready
-  while(!GasSensor.available()){
-    Serial.println("GasSensor not available");
-    delay(1000);
-  }
-  GasSensor.setDriveMode(CCS811_DRIVE_MODE_1SEC);
 }
 
 void loop() {
-  if(GasSensor.available()){
-      if(!GasSensor.readData()){
-        Serial.print("CO2: ");
-        Serial.print(GasSensor.geteCO2());
-        Serial.print("ppm, TVOC: ");
-        Serial.println(GasSensor.getTVOC());
-      }
-      else{
-        Serial.println("ERROR CCS811 readData() failed! Sleeping for 1000 ms");
-        delay(1000);
-      }
-    }
-    delay(500);
+  scan_i2c_and_send_serial(&Wire);
+  delay(1000);      
 
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 10);
+  display.println("Hello world");
+  display.display();
+  delay(500);
 }
