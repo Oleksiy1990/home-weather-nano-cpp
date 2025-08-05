@@ -2,8 +2,6 @@
 #include <Wire.h>
 #include "i2c_scanner.h"
 #include "Adafruit_CCS811.h"
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
 
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
