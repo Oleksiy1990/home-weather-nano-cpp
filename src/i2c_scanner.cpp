@@ -1,6 +1,7 @@
 #include "i2c_scanner.h"
 
-void scan_i2c_and_send_serial(arduino::TwoWire* wire){
+void scan_i2c_and_send_serial(TwoWire* wire){
+  wire->begin();
   uint8_t error, address;
   int nDevices;
   Serial.println("Scanning the I2C bus...");
@@ -16,12 +17,14 @@ void scan_i2c_and_send_serial(arduino::TwoWire* wire){
       Serial.println(address,HEX);
       nDevices++;
     }
-    else if (error==4) {
-      Serial.print("Unknow error at address 0x");
-      if (address<16) {
-        Serial.print("0");
+    else {
+      if (error==4){
+        Serial.print("Unknow error at address 0x");
+        if (address<16) {
+          Serial.print("0");
+        }
+        Serial.println(address,HEX);
       }
-      Serial.println(address,HEX);
     }    
   }
   if (nDevices == 0) {
