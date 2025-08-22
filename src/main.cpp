@@ -1,43 +1,29 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <SPI.h>
+#include "i2c_scanner.h"
 #include "Adafruit_CCS811.h"
+#include "OledPrinter.h"
 
-Adafruit_CCS811 GasSensor;
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+
+OledPrinter oled{SCREEN_WIDTH, SCREEN_HEIGHT, 0x3c};
+int counter = 0;
+char msg[50];
 
 // put function declarations here:
 
-void setup() {
-Serial.begin(19200);
-
-  Serial.println("CCS811 test");
-
-  while(!GasSensor.begin()){
-    Serial.println("Failed to start sensor! Please check your wiring.");
-    delay(1000);
-  }
-
-  // Wait for the sensor to be ready
-  while(!GasSensor.available()){
-    Serial.println("GasSensor not available");
-    delay(1000);
-  }
-  GasSensor.setDriveMode(CCS811_DRIVE_MODE_1SEC);
+void setup() { 
+  Serial.begin(9600); // it seems like one cannot print from setup()
+  oled.init(&Serial);
 }
 
 void loop() {
-  if(GasSensor.available()){
-      if(!GasSensor.readData()){
-        Serial.print("CO2: ");
-        Serial.print(GasSensor.geteCO2());
-        Serial.print("ppm, TVOC: ");
-        Serial.println(GasSensor.getTVOC());
-      }
-      else{
-        Serial.println("ERROR CCS811 readData() failed! Sleeping for 1000 ms");
-        delay(1000);
-      }
-    }
-    delay(500);
+  scan_i2c_and_send_serial(&Wire);
+  sprintf(msg, "Hello world %d", counter);
+  counter ++;
+  oled.show_text(msg);
+  delay(500);
 
 }
