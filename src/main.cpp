@@ -15,7 +15,8 @@ char msg[50];
 // put function declarations here:
 
 void setup() { 
-  Serial.begin(9600); // it seems like one cannot print from setup()
+  Serial.begin(9600);
+  delay(2000); // this is just to make sure that Serial is up and running
   oled.init(&Serial);
 }
 
@@ -23,7 +24,9 @@ void loop() {
   scan_i2c_and_send_serial(&Wire);
   sprintf(msg, "Hello world %d", counter);
   counter ++;
-  oled.show_text(msg);
+  oled.write_line(msg, 1);
+  oled.write_line(msg, 6);
+  oled.show_text();
   delay(500);
 
 }
