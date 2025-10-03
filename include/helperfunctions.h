@@ -11,5 +11,6 @@
  */
 
 void scan_i2c_and_send_serial(arduino::TwoWire*);
+bool float_to_string(char* output_val, float input_val, uint8_t precision, uint8_t max_length);
 
 #endif

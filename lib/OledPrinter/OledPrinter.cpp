@@ -9,9 +9,9 @@ OledPrinter::OledPrinter(uint8_t width, uint8_t height, uint8_t i2c_address)
             adafruit_display{this->width, this->height, this->i2c_port, this->i2c_address}{};
 
 bool OledPrinter::init(){
-    if (!(i2c_port->available())){
-        i2c_port->begin();
-    }
+    // if (!(i2c_port->available())){
+    //     i2c_port->begin();
+    // }
     return adafruit_display.begin(switchvcc, i2c_address);
 }
 bool OledPrinter::init(Serial_* serialport){
@@ -27,6 +27,7 @@ bool OledPrinter::init(Serial_* serialport){
             counter++;
             delay(1000);
         } 
+        serial_port->println("OLED SSD1306 on I2C initialized!");
         return true;
     }
     return this->init();
