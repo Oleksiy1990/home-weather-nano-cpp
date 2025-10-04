@@ -31,29 +31,38 @@ bool AirParticleSensor::read_full_message(){
 }
 
 uint16_t AirParticleSensor::get_pm_1p0(){
+    read_full_message();
     return (full_message[start_pm_1p0_atm] << 8) | full_message[start_pm_1p0_atm + 1];
 }
 uint16_t AirParticleSensor::get_pm_2p5(){
+    read_full_message();
     return (full_message[start_pm_2p5_atm] << 8) | full_message[start_pm_2p5_atm + 1];
 }
 uint16_t AirParticleSensor::get_pm_10(){
+    read_full_message();
     return (full_message[start_pm_10_atm] << 8) | full_message[start_pm_10_atm + 1];
 }
 uint16_t AirParticleSensor::get_above_0p3_micron(){
+    read_full_message();
     return (full_message[start_0p3_micron] << 8) | full_message[start_0p3_micron + 1];
 }
 uint16_t AirParticleSensor::get_above_0p5_micron(){
+    read_full_message();
     return (full_message[start_0p5_micron] << 8) | full_message[start_0p5_micron + 1];
 }
 uint16_t AirParticleSensor::get_above_1p0_micron(){
+    read_full_message();
     return (full_message[start_1p0_micron] << 8) | full_message[start_1p0_micron + 1];
 }
 uint16_t AirParticleSensor::get_above_2p5_micron(){
+    read_full_message();
     return (full_message[start_2p5_micron] << 8) | full_message[start_2p5_micron + 1];
 }
 uint16_t AirParticleSensor::get_above_5_micron(){
+    read_full_message();
     return (full_message[start_5_micron] << 8) | full_message[start_5_micron + 1];
 }
 uint16_t AirParticleSensor::get_above_10_micron(){
+    read_full_message();
     return (full_message[start_10_micron] << 8) | full_message[start_10_micron + 1];
 }
