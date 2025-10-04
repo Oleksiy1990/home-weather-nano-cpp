@@ -18,15 +18,24 @@ void setup() {
   Serial.begin(9600);
   delay(2000); // this is just to make sure that Serial is up and running
   oled.init(&Serial);
+  Serial1.begin(9600);
+  delay(2000); // this is just to make sure that Serial is up and running
 }
 
 void loop() {
-  scan_i2c_and_send_serial(&Wire);
+  // scan_i2c_and_send_serial(&Wire);
   sprintf(msg, "Hello world %d", counter);
   counter ++;
-  oled.write_line(msg, 1);
-  oled.write_line(msg, 6);
+  oled.write_line(msg, 0);
   oled.show_text();
+  delay(500);
+
+  Serial.println("Serial1 data...");
+  while (Serial1.available()){
+    char data = Serial1.read();
+    Serial.print(data, HEX);
+  }
+  Serial.println("");
   delay(500);
 
 }

@@ -8,8 +8,8 @@
 class OledPrinter {
     private: 
         static const uint8_t VERTICAL_GAP = 10;
-        static const u_int8_t MAX_LINE = 5;
-        static const u_int8_t MAX_CHARS_PER_LINE = 22; // Apparently display width is 21 chars, plus the last one for null
+        static const uint8_t MAX_LINE = 5;
+        static const uint8_t MAX_CHARS_PER_LINE = 22; // Apparently display width is 21 chars, plus the last one for null
         char message_lines[MAX_LINE + 1][MAX_CHARS_PER_LINE] = {0};
         uint8_t width;
         uint8_t height;
