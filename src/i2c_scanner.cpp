@@ -1,7 +1,7 @@
 #include "i2c_scanner.h"
 
 void scan_i2c_and_send_serial(TwoWire* wire){
-  wire->begin();
+  wire->begin(); 
   uint8_t error, address;
   int nDevices;
   Serial.println("Scanning the I2C bus...");
