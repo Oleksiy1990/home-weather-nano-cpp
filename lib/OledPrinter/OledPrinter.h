@@ -28,6 +28,12 @@ class OledPrinter {
         bool init(Serial_* serialport);
         bool write_line(char* message, uint8_t line = 0);
         void show_text();
+        inline void clear_display(void) {
+            for (uint8_t idx = 0; idx <= MAX_LINE; idx++){
+                this->write_line("", idx);
+            }
+            this->show_text();
+        };
 };
 
 
